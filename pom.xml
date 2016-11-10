@@ -31,6 +31,17 @@
             <groupId>org.wildfly.swarm</groupId>
             <artifactId>jpa</artifactId>
             <version>${wildfly.swarm.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.wildfly.swarm</groupId>
+                    <artifactId>h2</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${wildfly.swarm.version}</version>
         </dependency>
     </dependencies>
 
