@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  postgres:
+    build:
+      context: ./postgre
+    image: shipstone/postgres-data
+    container_name: postgres-db-user
+    ports:
+      - 5432:5432

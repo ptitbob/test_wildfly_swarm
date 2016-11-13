@@ -1,0 +1,1 @@
+insert INTO web_user values (nextval('seq_user_id'), 'ironman', 'Anthony', 'Stark');
