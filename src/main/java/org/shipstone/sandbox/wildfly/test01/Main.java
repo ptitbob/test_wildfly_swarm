@@ -16,6 +16,7 @@ public class Main {
     // initialisation du container
     Swarm containerSwarm = new Swarm();
 
+    // Ajout de la datasource
     containerSwarm.fraction(new DatasourcesFraction()
         .jdbcDriver("org.postgresql", (jdbcDriver) -> {
           jdbcDriver.driverClassName("org.postgresql.Driver");
@@ -33,9 +34,6 @@ public class Main {
     containerSwarm.fraction(
         new JPAFraction().defaultDatasource("java:jboss/datasources/DataDS")
     );
-
-    //System.setProperty("swarm.use.db", "h2");
-    //String driverModule = "org.postgresql";
 
     // Création du deploiement
     JAXRSArchive deployment = ShrinkWrap.create(JAXRSArchive.class);

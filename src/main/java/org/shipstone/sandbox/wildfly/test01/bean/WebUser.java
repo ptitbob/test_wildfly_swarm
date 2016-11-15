@@ -2,6 +2,8 @@ package org.shipstone.sandbox.wildfly.test01.bean;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -13,6 +15,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Objects;
+
+import static javax.persistence.GenerationType.SEQUENCE;
 
 /**
  * @author François Robert
@@ -32,6 +36,7 @@ public class WebUser implements Serializable{
   public static final String GET_ALL = "WebUser.GET_ALL";
   @Id
   @Column(name = "id")
+  @GeneratedValue(strategy = SEQUENCE, generator = "webuser_sequence")
   @XmlAttribute
   private Long id;
 

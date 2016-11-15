@@ -3,6 +3,7 @@ package org.shipstone.sandbox.wildfly.test01.ws.rs;
 import org.shipstone.sandbox.wildfly.test01.bean.WebUser;
 import org.shipstone.sandbox.wildfly.test01.services.WebUserService;
 
+import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -26,15 +27,32 @@ import static javax.ws.rs.core.MediaType.*;
 @Path("users")
 public class WebUserResources {
 
-  @Inject
+  @EJB
   private WebUserService webUserService;
 
+  /**
+   * Renvoi la liste de tous les utilisateur
+   * format par défaut (car en premier) : application/json
+   * ex :
+   *    - http :8080/api/users
+   *    - http :8080/api/users accept:application/xml
+   * @return liste
+   */
   @GET
   @Produces({APPLICATION_JSON, APPLICATION_XML})
   public List<WebUser> getAll() {
     return webUserService.getAll();
   }
 
+  /**
+   * Renvoi un utilisateur selon son id
+   * format par défaut (car en premier) : application/json
+   * ex :
+   *    - http :8080/api/users/1
+   *    - http :8080/api/users/1 accept:application/xml
+   * @param id identifiant de l'utilisateur (paramétré via un regex)
+   * @return utilisateur
+   */
   @GET
   @Path("{id: [(0-9)*]}")
   @Produces({APPLICATION_JSON, APPLICATION_XML})
@@ -42,6 +60,20 @@ public class WebUserResources {
     return webUserService.getById(id);
   }
 
+  /**
+   * Créé un utilisateur via l'exposition d'un formulaire
+   * L'URL d'accès GET est fourni dans le header 'location'
+   * Si le format du contenu demandé est spécifié (application/json ou application/xml), alors l'utilisateur est renvoyé dans le body de la réponse
+   * ex :
+   *    - http -f :8080/api/users login='machin' firstname='truc' lastname='bidule'
+   *    - demande de revoi en JSON : http -f :8080/api/users login='machin' firstname='truc' lastname='bidule' accept:application/json
+   *    - demande de renvoi en XML : http -f :8080/api/users login='machin' firstname='truc' lastname='bidule' accept:application/xml
+   * @param httpHeaders header http injecté depuis le contexte de l'appel
+   * @param login login
+   * @param firstname prénom
+   * @param lastname nom
+   * @return Réponse avec ou non l'utilisateur au niveau du body
+   */
   @POST
   @Consumes(APPLICATION_FORM_URLENCODED)
   @Produces({WILDCARD, APPLICATION_JSON, APPLICATION_XML})

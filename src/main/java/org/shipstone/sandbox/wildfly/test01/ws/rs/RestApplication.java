@@ -8,5 +8,5 @@ import javax.ws.rs.core.Application;
  * @author robert-f
  */
 @ApplicationPath("api")
-public class TestApplication extends Application {
+public class RestApplication extends Application {
 }
